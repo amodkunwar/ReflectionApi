@@ -24,9 +24,9 @@ public class CalculatorController {
 	private CalculatorService calculatorService;
 
 	@PostMapping(value = "/sum")
-	public int sum(@RequestBody CalculatorDto calculatorDto)
+	public Object sum(@RequestBody CalculatorDto calculatorDto)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		return (int) calculatorService.callReflectionServiceMethods(calculatorDto);
+		return calculatorService.callReflectionServiceMethods(calculatorDto);
 	}
 
 }

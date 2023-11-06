@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.dto.ApplyCalculator;
 import com.example.dto.CalculatorDto;
+import com.example.util.Constant;
+import com.example.validator.CalculatorValidator;
 
 @Service
 public class CalculatorService {
@@ -18,6 +20,10 @@ public class CalculatorService {
 
 	public Object callReflectionServiceMethods(CalculatorDto calculatorDto)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		String validationResult = CalculatorValidator.isApiNotNull().apply(calculatorDto);
+		if (!Constant.SUCCESS.equalsIgnoreCase(validationResult)) {
+			return validationResult;
+		}
 		Class<? extends ReflectionService> clazz = reflectionService.getClass();
 		for (Method method : clazz.getDeclaredMethods()) {
 			String value = method.getAnnotation(ApplyCalculator.class).value();
